@@ -1,0 +1,22 @@
+server:
+  port: 5762
+
+spring:
+  mvc:
+    static-path-pattern: /static/**
+  resources:
+    static-locations: classpath:/static/
+
+  freemarker:
+    cache: false
+    charset: utf-8
+    suffix: .ftl
+    template-loader-path: classpath:/templates/
+    request-context-attribute: request
+#    expose-request-attributes: false
+#    expose-session-attributes: false
+#    expose-spring-macro-helpers: false
+#    check-template-location: true
+#    allow-request-override: false
+
+

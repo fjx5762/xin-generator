@@ -1,0 +1,150 @@
+package ink.unicode.xin.generator.utils;
+
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
+import ink.unicode.xin.generator.exception.CodeGenerateException;
+import ink.unicode.xin.generator.model.ClassInfo;
+import ink.unicode.xin.generator.model.FieldInfo;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+/**
+ * Created by fjx on 2020/04/01 00:00
+ */
+public class TableParseUtil {
+
+    /**
+     * 解析建表SQL生成代码（model-dao-xml）
+     *
+     * @param tableSql
+     * @return
+     */
+    public static ClassInfo processTableIntoClassInfo(String tableSql) throws IOException {
+
+        // 获取表名
+        String tableName = null;
+        Matcher tableNameMatcher = Pattern.compile("(table|TABLE)\\s*(.*)\\(").matcher(tableSql);
+        if (tableNameMatcher.find()) {
+            String tableNameTemp = tableNameMatcher.group(2);
+            if (tableNameTemp.contains("`")) {
+                Matcher tableNameTempMatcher = Pattern.compile("\\`(\\b.*)\\`")
+                        .matcher(tableNameTemp);
+                if (tableNameTempMatcher.find()) {
+                    tableName = tableNameTempMatcher.group(1);
+                }
+            }
+        }
+        if (Objects.isNull(tableName)) {
+            throw new CodeGenerateException("表结构解析失败<tableName>");
+        }
+
+        // 获取表注释
+        String classComment = "";
+        Matcher classCommentMatcher = Pattern.compile("(.*)\\)*(COMMENT |COMMENT=|COMMENT = |comment |comment=|coment = )(.*)$").matcher(tableSql);
+        if (classCommentMatcher.find()) {
+            String group = classCommentMatcher.group(3);
+            if (group.contains("'")) {
+                Matcher tableNameTempMatcher = Pattern.compile("\\'(.*)\\'")
+                        .matcher(group);
+                if (tableNameTempMatcher.find()) {
+                    classComment = tableNameTempMatcher.group(1);
+                }
+            }
+        }
+
+        // 主键
+        List<String> primaryKeyList = Lists.newArrayList();
+        Matcher primaryKeyMatcher = Pattern.compile("(primary key|PRIMARY KEY).*\\((.*)\\)").matcher(tableSql);
+        if (primaryKeyMatcher.find()) {
+            // 有可能多个主键
+            List<String> primaryKeys = Splitter.on(",").splitToList(primaryKeyMatcher.group(2));
+            for (String primaryKey : primaryKeys) {
+                Matcher matcher = Pattern.compile("\\`(\\b.*)\\`").matcher(primaryKey);
+                if (matcher.find()) {
+                    primaryKeyList.add(matcher.group(1));
+                }
+            }
+        }
+
+        if (primaryKeyList.isEmpty()) {
+            throw new CodeGenerateException("表结构解析失败<请配置主键>");
+        }
+
+        // 字段
+        List<FieldInfo> fieldList = Lists.newArrayList();
+        Matcher fieldListMatcher = Pattern.compile("\\(([\\s\\S]*)\\)").matcher(tableSql);
+        if (fieldListMatcher.find()) {
+            List<String> fieldInfoSqlList = Splitter.on(",\n").omitEmptyStrings().splitToList(fieldListMatcher.group(1));
+            for (String fieldInfoSql : fieldInfoSqlList) {
+                FieldInfo fieldInfo = new FieldInfo();
+                // 字段
+                Matcher fieldMatcher = Pattern.compile("\\`(.*)\\`\\s*(int|tinyint|smallint|bigint|float" +
+                        "|double|datetime|timestamp|varchar|text|char|decimal)").matcher(fieldInfoSql);
+                if (fieldMatcher.find()) {
+                    fieldInfo.setColumnName(fieldMatcher.group(1));
+                    fieldInfo.setFieldName(StringUtils.lowerCaseFirst(StringUtils.underlineToCamelCase(fieldInfo.getColumnName())));
+                    fieldInfo.setColumnType(fieldMatcher.group(2));
+                    fieldInfo.setColumnUpperType(fieldInfo.getColumnType().toUpperCase());
+
+                    String fieldClass = "";
+                    String columnType = fieldInfo.getColumnType();
+                    if (Arrays.asList("int", "tinyint", "smallint").contains(columnType)) {
+                        fieldClass = Integer.class.getSimpleName();
+                    } else if (Arrays.asList("bigint").contains(columnType)) {
+                        fieldClass = Long.class.getSimpleName();
+                    } else if (Arrays.asList("float").contains(columnType)) {
+                        fieldClass = Double.class.getSimpleName();
+                    } else if (Arrays.asList("datetime", "timestamp").contains(columnType)) {
+                        fieldClass = Date.class.getSimpleName();
+                    } else if (Arrays.asList("varchar", "text", "char").contains(columnType)) {
+                        fieldClass = String.class.getSimpleName();
+                    } else if (Arrays.asList("decimal").contains(columnType)) {
+                        fieldClass = BigDecimal.class.getSimpleName();
+                    } else {
+                        throw new CodeGenerateException("表结构解析失败<fieldType> : " + fieldInfo.getColumnName());
+                    }
+                    fieldInfo.setFieldClass(fieldClass);
+                }
+                // 注释
+                Matcher fieldCommentMatcher = Pattern.compile("(comment|COMMENT)\\s* \\'(.*)\\'").matcher(fieldInfoSql);
+                if (fieldCommentMatcher.find()) {
+                    String fieldComment = fieldCommentMatcher.group(2);
+                    fieldInfo.setFieldComment(Objects.nonNull(fieldCommentMatcher.group(2)) ? fieldComment : "");
+                } else {
+                    fieldInfo.setFieldComment("");
+                }
+                if (Objects.nonNull(fieldInfo.getColumnName())) {
+                    fieldList.add(fieldInfo);
+                }
+            }
+        }
+
+        if (fieldList.isEmpty()) {
+            throw new CodeGenerateException("表结构解析失败<无字段>");
+        }
+
+        // 设置主键
+        for (FieldInfo fieldInfo : fieldList) {
+            fieldInfo.setIsPrimaryKey(primaryKeyList.contains(fieldInfo.getColumnName()));
+        }
+
+        ClassInfo codeJavaInfo = new ClassInfo();
+        codeJavaInfo.setTableName(tableName);
+        codeJavaInfo.setClassName(StringUtils.upperCaseFirst(StringUtils.underlineToCamelCase(tableName)));
+        codeJavaInfo.setClassComment(classComment);
+        codeJavaInfo.setFieldList(fieldList);
+        codeJavaInfo.setSerialVersionUID(String.valueOf(System.currentTimeMillis()));
+        codeJavaInfo.setPrimaryKeyFieldList(fieldList.stream().filter(FieldInfo::getIsPrimaryKey).collect(Collectors.toList()));
+        codeJavaInfo.setIsMultiplePrimaryKey(codeJavaInfo.getPrimaryKeyFieldList().size() > 1);
+
+        return codeJavaInfo;
+    }
+}
