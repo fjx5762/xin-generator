@@ -22,4 +22,12 @@ java code generator
 1）采用druid.sql优化语句 
 2）采用Lombok代码整洁
 
+mapper实现六个方法
+1）selectByPrimaryKey
+2）deleteByPrimaryKey
+3）insert
+4）insertSelective
+5）updateByPrimaryKey
+6）updateByPrimaryKeySelective
+
 该项目参考引用了 https://github.com/xuxueli/xxl-code-generator.git 
