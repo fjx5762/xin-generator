@@ -7,7 +7,7 @@
         <#if fieldItem.isPrimaryKey?exists && fieldItem.isPrimaryKey>
         <id column="${fieldItem.columnName}" jdbcType="${fieldItem.columnUpperType}" property="${fieldItem.fieldName}"/>
         <#else>
-        <result column="${fieldItem.columnName}" jdbcType="${fieldItem.columnUpperType}" roperty="${fieldItem.fieldName}"/>
+        <result column="${fieldItem.columnName}" jdbcType="${fieldItem.columnUpperType}" property="${fieldItem.fieldName}"/>
         </#if>
         </#list>
         </#if>

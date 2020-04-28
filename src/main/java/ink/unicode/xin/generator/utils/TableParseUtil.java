@@ -92,22 +92,28 @@ public class TableParseUtil {
                     fieldInfo.setColumnName(fieldMatcher.group(1));
                     fieldInfo.setFieldName(StringUtils.lowerCaseFirst(StringUtils.underlineToCamelCase(fieldInfo.getColumnName())));
                     fieldInfo.setColumnType(fieldMatcher.group(2));
-                    fieldInfo.setColumnUpperType(fieldInfo.getColumnType().toUpperCase());
+
 
                     String fieldClass = "";
                     String columnType = fieldInfo.getColumnType();
                     if (Arrays.asList("int", "tinyint", "smallint").contains(columnType)) {
                         fieldClass = Integer.class.getSimpleName();
+                        fieldInfo.setColumnUpperType("INTEGER");
                     } else if (Arrays.asList("bigint").contains(columnType)) {
                         fieldClass = Long.class.getSimpleName();
+                        fieldInfo.setColumnUpperType("BIGINT");
                     } else if (Arrays.asList("float").contains(columnType)) {
                         fieldClass = Double.class.getSimpleName();
+                        fieldInfo.setColumnUpperType("FLOAT");
                     } else if (Arrays.asList("datetime", "timestamp").contains(columnType)) {
                         fieldClass = Date.class.getSimpleName();
+                        fieldInfo.setColumnUpperType("TIMESTAMP");
                     } else if (Arrays.asList("varchar", "text", "char").contains(columnType)) {
                         fieldClass = String.class.getSimpleName();
+                        fieldInfo.setColumnUpperType("VARCHAR");
                     } else if (Arrays.asList("decimal").contains(columnType)) {
                         fieldClass = BigDecimal.class.getSimpleName();
+                        fieldInfo.setColumnUpperType("DECIMAL");
                     } else {
                         throw new CodeGenerateException("表结构解析失败<fieldType> : " + fieldInfo.getColumnName());
                     }
