@@ -37,3 +37,5 @@ mapper实现六个方法
 
 
 该项目参考引用了 https://github.com/xuxueli/xxl-code-generator.git 
+
+线上地址 http://47.107.131.27/
