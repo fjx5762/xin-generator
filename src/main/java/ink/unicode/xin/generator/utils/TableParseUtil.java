@@ -8,6 +8,7 @@ import ink.unicode.xin.generator.model.FieldInfo;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -106,7 +107,7 @@ public class TableParseUtil {
                         fieldClass = Double.class.getSimpleName();
                         fieldInfo.setColumnUpperType("FLOAT");
                     } else if (Arrays.asList("datetime", "timestamp").contains(columnType)) {
-                        fieldClass = Date.class.getSimpleName();
+                        fieldClass = LocalDateTime.class.getSimpleName();
                         fieldInfo.setColumnUpperType("TIMESTAMP");
                     } else if (Arrays.asList("varchar", "text", "char").contains(columnType)) {
                         fieldClass = String.class.getSimpleName();

@@ -7,8 +7,8 @@ import java.util.Map;
 
 
 /**
-*  ${classInfo.classComment}
-*  Created by ${classInfo.createBy} on ${.now?string('yyyy/MM/dd HH:mm')}
+* @author fongjx
+* @since ${.now?string('yyyy/MM/dd')}
 */
 @Slf4j
 @RestController("/${classInfo.className?uncap_first}")

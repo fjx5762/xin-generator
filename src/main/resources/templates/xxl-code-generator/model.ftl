@@ -4,9 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import java.io.Serializable;
 <#--主键实体-->
+
 /**
-*  ${classInfo.classComment} 主键
-*  Created by ${classInfo.createBy} on ${.now?string('yyyy/MM/dd HH:mm')}
+* @author fongjx
+* @since ${.now?string('yyyy/MM/dd')}
 */
 @Getter
 @Setter
@@ -77,8 +78,8 @@ import java.util.Date;
 </#if>
 
 /**
-*  ${classInfo.classComment}
-*  Created by ${classInfo.createBy} on ${.now?string('yyyy/MM/dd HH:mm')}
+* @author fongjx
+* @since ${.now?string('yyyy/MM/dd')}
 */
 @Getter
 @Setter
