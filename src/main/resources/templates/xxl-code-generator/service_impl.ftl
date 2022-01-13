@@ -1,6 +1,7 @@
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,16 +9,17 @@ import java.util.List;
 import java.util.Map;
 
 /**
-*  ${classInfo.classComment}
-*  Created by ${classInfo.createBy} on ${.now?string('yyyy/MM/dd HH:mm')}
+ * @author ${classInfo.createBy}
+ * @since ${.now?string('yyyy.MM.dd')}
 */
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class ${classInfo.className}ServiceImpl implements ${classInfo.className}Service {
 
-    @Autowired
-    private ${classInfo.className}Mapper ${classInfo.className?uncap_first}Mapper;
+    private final ${classInfo.className}Mapper ${classInfo.className?uncap_first}Mapper;
 <#if classInfo.needServiceExtends?exists && classInfo.needServiceExtends>
+
     @Override
     public CommonResult save(${classInfo.className} ${classInfo.className?uncap_first}) {
         ${classInfo.className?uncap_first}Mapper.insert(${classInfo.className?uncap_first});

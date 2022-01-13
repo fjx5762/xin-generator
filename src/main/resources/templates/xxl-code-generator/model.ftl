@@ -6,8 +6,8 @@ import java.io.Serializable;
 <#--主键实体-->
 
 /**
-* @author fongjx
-* @since ${.now?string('yyyy/MM/dd')}
+ * @author ${classInfo.createBy}
+ * @since ${.now?string('yyyy.MM.dd')}
 */
 @Getter
 @Setter
@@ -31,19 +31,20 @@ public class ${classInfo.className}Key implements Serializable {
 
 <#if classInfo.fieldList?exists && classInfo.fieldList?size gt 0>
     <#list classInfo.fieldList as fieldItem >
-        <#if fieldItem.fieldClass == "Date"><#assign importDdate = true /></#if>
+        <#if fieldItem.fieldClass == "LocalDateTime"><#assign importDdate = true /></#if>
     </#list>
 </#if>
 import lombok.Getter;
 import lombok.Setter;
 import java.io.Serializable;
 <#if importDdate?? && importDdate>
-import java.util.Date;
+import java.time.LocalDateTime;
 </#if>
 <#--继承主键实体-->
+
 /**
-*  ${classInfo.classComment}
-*  Created by ${classInfo.createBy} on ${.now?string('yyyy/MM/dd HH:mm')}
+ * @author ${classInfo.createBy}
+ * @since ${.now?string('yyyy.MM.dd')}
 */
 @Getter
 @Setter
@@ -67,19 +68,19 @@ public class ${classInfo.className} extends ${classInfo.className}Key implements
 <#--单主键-->
 <#if classInfo.fieldList?exists && classInfo.fieldList?size gt 0>
     <#list classInfo.fieldList as fieldItem >
-        <#if fieldItem.fieldClass == "Date"><#assign importDdate = true /></#if>
+        <#if fieldItem.fieldClass == "LocalDateTime"><#assign importDdate = true /></#if>
     </#list>
 </#if>
 import lombok.Getter;
 import lombok.Setter;
 import java.io.Serializable;
 <#if importDdate?? && importDdate>
-import java.util.Date;
+import java.time.LocalDateTime;
 </#if>
 
 /**
-* @author fongjx
-* @since ${.now?string('yyyy/MM/dd')}
+ * @author ${classInfo.createBy}
+ * @since ${.now?string('yyyy.MM.dd')}
 */
 @Getter
 @Setter

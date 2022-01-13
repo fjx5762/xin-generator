@@ -45,8 +45,8 @@ public class IndexController {
             // 解析表结构
             ClassInfo classInfo = CodeGeneratorTool.processTableIntoClassInfo(tableSqlFormat);
             classInfo.setCreateBy("fjx");
-            classInfo.setMapperPath("dev.metalion.sea.mapper");
-            classInfo.setEntityPath("dev.metalion.sea.model.entity");
+            classInfo.setMapperPath("com.metalion.project.mapper");
+            classInfo.setEntityPath("com.metalion.project.model.entity");
             classInfo.setPrimaryKeyClass(classInfo.getIsMultiplePrimaryKey() ?
                     classInfo.getClassName() + "Key" : classInfo.getPrimaryKeyFieldList().get(0).getFieldClass());
             // mapper基类

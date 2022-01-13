@@ -3,8 +3,8 @@
 import ${classInfo.mapperPath}.BaseMapper;
 
 /**
-* @author fongjx
-* @since ${.now?string('yyyy/MM/dd')}
+ * @author ${classInfo.createBy}
+ * @since ${.now?string('yyyy.MM.dd')}
 */
 public interface ${classInfo.className}Mapper extends BaseMapper<${classInfo.className}, ${classInfo.primaryKeyClass}> {
 
@@ -14,13 +14,13 @@ public interface ${classInfo.className}Mapper extends BaseMapper<${classInfo.cla
 import org.apache.ibatis.annotations.Mapper;
 
 /**
-* @author fongjx
-* @since ${.now?string('yyyy/MM/dd')}
+ * @author ${classInfo.createBy}
+ * @since ${.now?string('yyyy.MM.dd')}
 */
 public interface ${classInfo.className}Mapper {
 
     /**
-    * 根据key加载
+    * 根据key查询
     */
     ${classInfo.className} selectByPrimaryKey(${classInfo.primaryKeyClass} <#if classInfo.isMultiplePrimaryKey?exists && classInfo.isMultiplePrimaryKey>${classInfo.primaryKeyClass?uncap_first}<#else>${classInfo.primaryKeyFieldList[0].columnName?uncap_first}</#if>);
 

@@ -17,6 +17,7 @@ public class ${classInfo.className}Controller {
     @Autowired
     private ${classInfo.className}Service ${classInfo.className?uncap_first}Service;
 <#if classInfo.needControllerExtends?exists && classInfo.needControllerExtends>
+
     /**
     * 新增
     */
