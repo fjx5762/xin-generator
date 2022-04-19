@@ -9,9 +9,9 @@ java code generator 代码生成
 // 创建人
 classInfo.setCreateBy("fjx");
 // mapper路径
-classInfo.setMapperPath("ink.unicode.boot.generator.mapper");
+classInfo.setMapperPath("com.metalion.project.mapper");
 // 实体路径
-classInfo.setEntityPath("ink.unicode.boot.generator.entity");
+classInfo.setEntityPath("com.metalion.project.model.entity");
 // mapper基类
 classInfo.setIsExtendsBaseMapper(false);
 // 继承service
@@ -36,6 +36,6 @@ mapper实现六个方法
 
 
 
-该项目参考引用了 https://github.com/xuxueli/xxl-code-generator.git 
+原作者地址 https://github.com/xuxueli/xxl-code-generator.git 
 
-线上地址 http://47.107.131.27/
+线上地址 https://code.metalion.tech/
