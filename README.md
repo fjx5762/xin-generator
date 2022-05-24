@@ -36,6 +36,6 @@ mapper实现六个方法
 
 
 
-原作者地址 https://github.com/xuxueli/xxl-code-generator.git 
+参考地址 https://github.com/xuxueli/xxl-code-generator.git 
 
 线上地址 https://code.metalion.tech/
