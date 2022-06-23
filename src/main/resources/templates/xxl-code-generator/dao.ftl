@@ -3,8 +3,8 @@
 import ${classInfo.mapperPath}.BaseMapper;
 
 /**
- * @author ${classInfo.createBy}
- * @since ${.now?string('yyyy.MM.dd')}
+* @author ${classInfo.createBy}
+* @since ${.now?string('yyyy/MM/dd')}
 */
 public interface ${classInfo.className}Mapper extends BaseMapper<${classInfo.className}, ${classInfo.primaryKeyClass}> {
 
@@ -14,8 +14,8 @@ public interface ${classInfo.className}Mapper extends BaseMapper<${classInfo.cla
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * @author ${classInfo.createBy}
- * @since ${.now?string('yyyy.MM.dd')}
+* @author ${classInfo.createBy}
+* @since ${.now?string('yyyy/MM/dd')}
 */
 public interface ${classInfo.className}Mapper {
 

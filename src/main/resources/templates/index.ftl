@@ -50,6 +50,21 @@ CREATE TABLE `user_info` (
                                             </textarea>
                                         </small>
                                     </li>
+                                    <li>
+                                        <small class="text-muted">
+                                            Author：<input id="author" placeholder="请输入author" value="author">
+                                        </small>
+                                    </li>
+                                    <li>
+                                        <small class="text-muted">
+                                            Mapper路径：<input id="mapperPath" placeholder="请输入mapper路径" value="com.example.demo.mapper">
+                                        </small>
+                                    </li>
+                                    <li>
+                                        <small class="text-muted">
+                                            Po路径：<input id="poPath" placeholder="请输入po路径" value="com.example.demo.po">
+                                        </small>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -105,36 +120,6 @@ CREATE TABLE `user_info` (
 
 
                     </div>
-
-                    <#--&lt;#&ndash; right &ndash;&gt;
-                    <div class="col-md-3">
-
-                        <div class="box box-default">
-                            <div class="box-header with-border">
-                                <small class="text-muted" >表结构信息</small>
-                                <button type="button" class="btn btn-default btn-xs pull-right" >生成代码</button>
-                            </div>
-                            <!-- /.box-header &ndash;&gt;
-                            <div class="box-body">
-                                <ul class="chart-legend clearfix">
-                                    <li>
-                                        <small class="text-muted" >
-                                            <textarea id="tableSql" placeholder="请输入表结构信息..." ></textarea>
-                                            &lt;#&ndash;<textarea rows="5" style="width: 100%;"></textarea>&ndash;&gt;
-                                        </small>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="box-footer no-padding">
-                                <ul class="nav nav-pills nav-stacked">
-                                    &lt;#&ndash;<li><a> 主题数：10 </a></li>&ndash;&gt;
-                                </ul>
-                            </div>
-                        </div>
-
-                    </div>-->
-
-
                 </div>
 
             </section>

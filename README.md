@@ -7,11 +7,11 @@ java code generator 代码生成
 
 ```java
 // 创建人
-classInfo.setCreateBy("fjx");
+classInfo.setCreateBy(author);
 // mapper路径
-classInfo.setMapperPath("com.metalion.project.mapper");
+classInfo.setMapperPath(mapperPath);
 // 实体路径
-classInfo.setEntityPath("com.metalion.project.model.entity");
+classInfo.setEntityPath(poPath);
 // mapper基类
 classInfo.setIsExtendsBaseMapper(false);
 // 继承service
@@ -35,7 +35,6 @@ mapper实现六个方法
 6. updateByPrimaryKeySelective
 
 
-
 参考地址 https://github.com/xuxueli/xxl-code-generator.git 
 
-线上地址 https://code.metalion.tech/
+在线访问 https://code.metalion.tech/

@@ -3,7 +3,10 @@ $(function () {
     /**
      * 初始化 table sql
      */
-    var tableSqlIDE;
+    let tableSqlIDE;
+    let mapperPathIDE;
+    let poPathIDE;
+    let authorIDE;
 
     function initTableSql() {
         tableSqlIDE = CodeMirror.fromTextArea(document.getElementById("tableSql"), {
@@ -16,6 +19,37 @@ $(function () {
             gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
         });
         tableSqlIDE.setSize('auto', 'auto');
+
+        authorIDE = CodeMirror.fromTextArea(document.getElementById("author"), {
+            lineNumbers: true,
+            mode: "text/html",
+            lineWrapping: false,
+            readOnly: false,
+            foldGutter: true,
+            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+        });
+        authorIDE.setSize('auto', 'auto');
+
+        mapperPathIDE = CodeMirror.fromTextArea(document.getElementById("mapperPath"), {
+            lineNumbers: true,
+            mode: "text/html",
+            lineWrapping: false,
+            readOnly: false,
+            foldGutter: true,
+            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+        });
+        mapperPathIDE.setSize('auto', 'auto');
+
+        poPathIDE = CodeMirror.fromTextArea(document.getElementById("poPath"), {
+            lineNumbers: true,
+            matchBrackets: true,
+            mode: "text/html",
+            lineWrapping: true,
+            readOnly: false,
+            foldGutter: true,
+            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+        });
+        poPathIDE.setSize('auto', 'auto');
     }
 
     initTableSql();
@@ -23,13 +57,12 @@ $(function () {
     /**
      * 初始化 code area
      */
-
-    var controller_ide;
-    var service_ide;
-    var service_impl_ide;
-    var dao_ide;
-    var mybatis_ide;
-    var model_ide;
+    let controller_ide;
+    let service_ide;
+    let service_impl_ide;
+    let dao_ide;
+    let mybatis_ide;
+    let model_ide;
 
     function initCodeArea() {
 
@@ -111,13 +144,19 @@ $(function () {
      */
     $('#codeGenerate').click(function () {
 
-        var tableSql = tableSqlIDE.getValue();
+        let tableSql = tableSqlIDE.getValue();
+        let author = authorIDE.getValue();
+        let mapperPath = mapperPathIDE.getValue();
+        let poPath = poPathIDE.getValue();
 
         $.ajax({
             type: 'POST',
             url: base_url + "/codeGenerate",
             data: {
-                "tableSql": tableSql
+                "tableSql": tableSql,
+                "author": author,
+                "mapperPath": mapperPath,
+                "poPath": poPath
             },
             dataType: "json",
             success: function (data) {

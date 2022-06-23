@@ -33,9 +33,18 @@ public class IndexController {
 
     @RequestMapping("/codeGenerate")
     @ResponseBody
-    public ReturnT<Map<String, String>> codeGenerate(String tableSql) {
+    public ReturnT<Map<String, String>> codeGenerate(String tableSql, String author, String mapperPath, String poPath) {
         if (StringUtils.isBlank(tableSql)) {
             return new ReturnT<>(ReturnT.FAIL_CODE, "表结构信息不可为空");
+        }
+        if (StringUtils.isBlank(author)) {
+            return new ReturnT<>(ReturnT.FAIL_CODE, "Author不可为空");
+        }
+        if (StringUtils.isBlank(mapperPath)) {
+            return new ReturnT<>(ReturnT.FAIL_CODE, "MapperPath不可为空");
+        }
+        if (StringUtils.isBlank(poPath)) {
+            return new ReturnT<>(ReturnT.FAIL_CODE, "PoPath不可为空");
         }
         try {
             // 优化SQL
@@ -44,9 +53,9 @@ public class IndexController {
 
             // 解析表结构
             ClassInfo classInfo = CodeGeneratorTool.processTableIntoClassInfo(tableSqlFormat);
-            classInfo.setCreateBy("fjx");
-            classInfo.setMapperPath("com.metalion.project.mapper");
-            classInfo.setEntityPath("com.metalion.project.model.entity");
+            classInfo.setCreateBy(author);
+            classInfo.setMapperPath(mapperPath);
+            classInfo.setEntityPath(poPath);
             classInfo.setPrimaryKeyClass(classInfo.getIsMultiplePrimaryKey() ?
                     classInfo.getClassName() + "Key" : classInfo.getPrimaryKeyFieldList().get(0).getFieldClass());
             // mapper基类
