@@ -8,7 +8,7 @@ import ink.unicode.xin.generator.model.FieldInfo;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -87,36 +87,110 @@ public class TableParseUtil {
             for (String fieldInfoSql : fieldInfoSqlList) {
                 FieldInfo fieldInfo = new FieldInfo();
                 // 字段
-                Matcher fieldMatcher = Pattern.compile("\\`(.*)\\`\\s*(int|tinyint|smallint|bigint|float" +
-                        "|double|datetime|timestamp|varchar|text|char|decimal)").matcher(fieldInfoSql);
+//                Matcher fieldMatcher = Pattern.compile("\\`(.*)\\`\\s*()").matcher(fieldInfoSql);
+                Matcher fieldMatcher = Pattern.compile("\\`(.*)\\`\\s*(TINYINT|SMALLINT|MEDIUMINT|INTEGER|BIGINT|INT|FLOAT|DOUBLE|DECIMAL|TIMESTAMP|DATETIME|TIME|DATE|YEAR|VARBINARY|BINARY|BIT|TINYBLOB|LONGBLOB|MEDIUMBLOB|BLOB|VARCHAR|CHAR|LONGTEXT|MEDIUMTEXT|TEXT|JSON|" +
+                        "tinyint|smallint|mediumint|integer|bigint|int|float|double|decimal|timestamp|datetime|time|date|year|varbinary|binary|bit|tinyblob|longblob|mediumblob|blob|varchar|char|longtext|mediumtext|text|json)").matcher(fieldInfoSql);
                 if (fieldMatcher.find()) {
                     fieldInfo.setColumnName(fieldMatcher.group(1));
                     fieldInfo.setFieldName(StringUtils.lowerCaseFirst(StringUtils.underlineToCamelCase(fieldInfo.getColumnName())));
                     fieldInfo.setColumnType(fieldMatcher.group(2));
 
-
                     String fieldClass = "";
-                    String columnType = fieldInfo.getColumnType();
-                    if (Arrays.asList("int", "tinyint", "smallint").contains(columnType)) {
-                        fieldClass = Integer.class.getSimpleName();
-                        fieldInfo.setColumnUpperType("INTEGER");
-                    } else if (Arrays.asList("bigint").contains(columnType)) {
-                        fieldClass = Long.class.getSimpleName();
-                        fieldInfo.setColumnUpperType("BIGINT");
-                    } else if (Arrays.asList("float").contains(columnType)) {
-                        fieldClass = Double.class.getSimpleName();
-                        fieldInfo.setColumnUpperType("FLOAT");
-                    } else if (Arrays.asList("datetime", "timestamp").contains(columnType)) {
-                        fieldClass = LocalDateTime.class.getSimpleName();
-                        fieldInfo.setColumnUpperType("TIMESTAMP");
-                    } else if (Arrays.asList("varchar", "text", "char").contains(columnType)) {
-                        fieldClass = String.class.getSimpleName();
-                        fieldInfo.setColumnUpperType("VARCHAR");
-                    } else if (Arrays.asList("decimal").contains(columnType)) {
-                        fieldClass = BigDecimal.class.getSimpleName();
-                        fieldInfo.setColumnUpperType("DECIMAL");
-                    } else {
-                        throw new CodeGenerateException("表结构解析失败<fieldType> : " + fieldInfo.getColumnName());
+                    String columnType = fieldInfo.getColumnType().toLowerCase();
+
+                    switch (columnType) {
+                        // 数字
+                        case "tinyint":
+                            fieldClass = Integer.class.getSimpleName();
+                            fieldInfo.setColumnUpperType("TINYINT");
+                            break;
+                        case "smallint":
+                            fieldClass = Integer.class.getSimpleName();
+                            fieldInfo.setColumnUpperType("SMALLINT");
+                            break;
+                        case "mediumint":
+                        case "int":
+                        case "integer":
+                            fieldClass = Integer.class.getSimpleName();
+                            fieldInfo.setColumnUpperType("INTEGER");
+                            break;
+                        case "bigint":
+                            fieldClass = Long.class.getSimpleName();
+                            fieldInfo.setColumnUpperType("BIGINT");
+                            break;
+
+                        // 近似数字
+                        case "float":
+                            fieldClass = Float.class.getSimpleName();
+                            fieldInfo.setColumnUpperType("FLOAT");
+                            break;
+                        case "double":
+                            fieldClass = Double.class.getSimpleName();
+                            fieldInfo.setColumnUpperType("DOUBLE");
+                            break;
+                        case "decimal":
+                            fieldClass = BigDecimal.class.getSimpleName();
+                            fieldInfo.setColumnUpperType("DECIMAL");
+                            break;
+
+                        // 日期
+                        case "date":
+                            fieldClass = LocalDate.class.getSimpleName();
+                            fieldInfo.setColumnUpperType("DATE");
+                            break;
+                        case "time":
+                            fieldClass = LocalTime.class.getSimpleName();
+                            fieldInfo.setColumnUpperType("TIME");
+                            break;
+                        case "datetime":
+                            fieldClass = LocalDateTime.class.getSimpleName();
+                            fieldInfo.setColumnUpperType("TIMESTAMP");
+                            break;
+                        case "timestamp":
+                            fieldClass = Instant.class.getSimpleName();
+                            fieldInfo.setColumnUpperType("TIMESTAMP");
+                            break;
+                        case "year":
+                            fieldClass = Year.class.getSimpleName();
+                            fieldInfo.setColumnUpperType("DATE");
+                            break;
+
+                        // 二进制
+                        case "bit":
+                            fieldClass = "byte[]";
+                            fieldInfo.setColumnUpperType("BIT");
+                            break;
+                        case "binary":
+                            fieldClass = "byte[]";
+                            fieldInfo.setColumnUpperType("BINARY");
+                            break;
+                        case "varbinary":
+                            fieldClass = "byte[]";
+                            fieldInfo.setColumnUpperType("VARBINARY");
+                            break;
+                        case "tinyblob":
+                        case "blob":
+                        case "mediumblob":
+                        case "longblob":
+                            fieldClass = "byte[]";
+                            fieldInfo.setColumnUpperType("BLOB");
+                            break;
+
+                        // 字符串
+                        case "char":
+                            fieldClass = String.class.getSimpleName();
+                            fieldInfo.setColumnUpperType("CHAR");
+                            break;
+                        case "varchar":
+                        case "text":
+                        case "mediumtext":
+                        case "longtext":
+                        case "json":
+                            fieldClass = String.class.getSimpleName();
+                            fieldInfo.setColumnUpperType("VARCHAR");
+                            break;
+                        default:
+                            throw new CodeGenerateException("表结构解析失败<fieldType> : " + fieldInfo.getColumnName());
                     }
                     fieldInfo.setFieldClass(fieldClass);
                 }

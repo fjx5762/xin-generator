@@ -31,14 +31,34 @@ public class ${classInfo.className}Key implements Serializable {
 
 <#if classInfo.fieldList?exists && classInfo.fieldList?size gt 0>
     <#list classInfo.fieldList as fieldItem >
-        <#if fieldItem.fieldClass == "LocalDateTime"><#assign importDdate = true /></#if>
+        <#if fieldItem.fieldClass == "LocalDateTime"><#assign importLocalDateTime = true /></#if>
+        <#if fieldItem.fieldClass == "LocalDate"><#assign importLocalDate = true /></#if>
+        <#if fieldItem.fieldClass == "LocalTime"><#assign importLocalTime = true /></#if>
+        <#if fieldItem.fieldClass == "BigDecimal"><#assign importBigDecimal = true /></#if>
+        <#if fieldItem.fieldClass == "Instant"><#assign importInstant = true /></#if>
+        <#if fieldItem.fieldClass == "Year"><#assign importYear = true /></#if>
     </#list>
 </#if>
 import lombok.Getter;
 import lombok.Setter;
 import java.io.Serializable;
-<#if importDdate?? && importDdate>
+<#if importLocalDateTime?? && importLocalDateTime>
 import java.time.LocalDateTime;
+</#if>
+<#if importLocalDate?? && importLocalDate>
+import java.time.LocalDate;
+</#if>
+<#if importLocalTime?? && importLocalTime>
+import java.time.LocalTime;
+</#if>
+<#if importInstant?? && importInstant>
+import java.time.Instant;
+</#if>
+<#if importYear?? && importYear>
+import java.time.Year;
+</#if>
+<#if importBigDecimal?? && importBigDecimal>
+import java.math.BigDecimal;
 </#if>
 <#--继承主键实体-->
 
@@ -68,14 +88,34 @@ public class ${classInfo.className} extends ${classInfo.className}Key implements
 <#--单主键-->
 <#if classInfo.fieldList?exists && classInfo.fieldList?size gt 0>
     <#list classInfo.fieldList as fieldItem >
-        <#if fieldItem.fieldClass == "LocalDateTime"><#assign importDdate = true /></#if>
+        <#if fieldItem.fieldClass == "LocalDateTime"><#assign importLocalDateTime = true /></#if>
+        <#if fieldItem.fieldClass == "LocalDate"><#assign importLocalDate = true /></#if>
+        <#if fieldItem.fieldClass == "LocalTime"><#assign importLocalTime = true /></#if>
+        <#if fieldItem.fieldClass == "BigDecimal"><#assign importBigDecimal = true /></#if>
+        <#if fieldItem.fieldClass == "Instant"><#assign importInstant = true /></#if>
+        <#if fieldItem.fieldClass == "Year"><#assign importYear = true /></#if>
     </#list>
 </#if>
 import lombok.Getter;
 import lombok.Setter;
 import java.io.Serializable;
-<#if importDdate?? && importDdate>
+<#if importLocalDateTime?? && importLocalDateTime>
 import java.time.LocalDateTime;
+</#if>
+<#if importLocalDate?? && importLocalDate>
+import java.time.LocalDate;
+</#if>
+<#if importLocalTime?? && importLocalTime>
+import java.time.LocalTime;
+</#if>
+<#if importInstant?? && importInstant>
+import java.time.Instant;
+</#if>
+<#if importYear?? && importYear>
+import java.time.Year;
+</#if>
+<#if importBigDecimal?? && importBigDecimal>
+import java.math.BigDecimal;
 </#if>
 
 /**
