@@ -42,7 +42,6 @@
 CREATE TABLE `user_info` (
   `id` bigint(20) NOT NULL COMMENT 'id',
   `username` varchar(20) NOT NULL COMMENT '用户名称',
-  `password` int(2) DEFAULT NULL COMMENT '密码',
   `gmt_created` datetime DEFAULT NULL COMMENT '创建时间',
   `gmt_modified` datetime DEFAULT NULL COMMENT '修改时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '数据状态 0：失效 1：有效',
