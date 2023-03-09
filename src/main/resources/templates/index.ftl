@@ -43,8 +43,9 @@ CREATE TABLE `user_info` (
   `id` bigint(20) NOT NULL COMMENT 'id',
   `username` varchar(20) NOT NULL COMMENT '用户名称',
   `password` int(2) DEFAULT NULL COMMENT '密码',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `gmt_created` datetime DEFAULT NULL COMMENT '创建时间',
+  `gmt_modified` datetime DEFAULT NULL COMMENT '修改时间',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '数据状态 0：失效 1：有效',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='用户信息';
                                             </textarea>
@@ -62,7 +63,7 @@ CREATE TABLE `user_info` (
                                     </li>
                                     <li>
                                         <small class="text-muted">
-                                            Po路径：<input id="poPath" placeholder="请输入po路径" value="com.example.demo.po">
+                                            Model路径：<input id="modelPath" placeholder="请输入model路径" value="com.example.demo.model">
                                         </small>
                                     </li>
                                 </ul>

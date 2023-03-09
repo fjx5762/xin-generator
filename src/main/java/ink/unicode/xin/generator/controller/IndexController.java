@@ -33,7 +33,7 @@ public class IndexController {
 
     @RequestMapping("/codeGenerate")
     @ResponseBody
-    public ReturnT<Map<String, String>> codeGenerate(String tableSql, String author, String mapperPath, String poPath) {
+    public ReturnT<Map<String, String>> codeGenerate(String tableSql, String author, String mapperPath, String modelPath) {
         if (StringUtils.isBlank(tableSql)) {
             return new ReturnT<>(ReturnT.FAIL_CODE, "表结构信息不可为空");
         }
@@ -43,8 +43,8 @@ public class IndexController {
         if (StringUtils.isBlank(mapperPath)) {
             return new ReturnT<>(ReturnT.FAIL_CODE, "MapperPath不可为空");
         }
-        if (StringUtils.isBlank(poPath)) {
-            return new ReturnT<>(ReturnT.FAIL_CODE, "PoPath不可为空");
+        if (StringUtils.isBlank(modelPath)) {
+            return new ReturnT<>(ReturnT.FAIL_CODE, "ModelPath不可为空");
         }
         try {
             // 优化SQL
@@ -55,7 +55,7 @@ public class IndexController {
             ClassInfo classInfo = CodeGeneratorTool.processTableIntoClassInfo(tableSqlFormat);
             classInfo.setCreateBy(author);
             classInfo.setMapperPath(mapperPath);
-            classInfo.setEntityPath(poPath);
+            classInfo.setEntityPath(modelPath);
             classInfo.setPrimaryKeyClass(classInfo.getIsMultiplePrimaryKey() ?
                     classInfo.getClassName() + "Key" : classInfo.getPrimaryKeyFieldList().get(0).getFieldClass());
             // mapper基类

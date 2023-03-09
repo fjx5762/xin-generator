@@ -5,7 +5,7 @@ $(function () {
      */
     let tableSqlIDE;
     let mapperPathIDE;
-    let poPathIDE;
+    let modelPathIDE;
     let authorIDE;
 
     function initTableSql() {
@@ -40,7 +40,7 @@ $(function () {
         });
         mapperPathIDE.setSize('auto', 'auto');
 
-        poPathIDE = CodeMirror.fromTextArea(document.getElementById("poPath"), {
+        modelPathIDE = CodeMirror.fromTextArea(document.getElementById("modelPath"), {
             lineNumbers: true,
             matchBrackets: true,
             mode: "text/html",
@@ -49,7 +49,7 @@ $(function () {
             foldGutter: true,
             gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
         });
-        poPathIDE.setSize('auto', 'auto');
+        modelPathIDE.setSize('auto', 'auto');
     }
 
     initTableSql();
@@ -147,7 +147,7 @@ $(function () {
         let tableSql = tableSqlIDE.getValue();
         let author = authorIDE.getValue();
         let mapperPath = mapperPathIDE.getValue();
-        let poPath = poPathIDE.getValue();
+        let modelPath = modelPathIDE.getValue();
 
         $.ajax({
             type: 'POST',
@@ -156,7 +156,7 @@ $(function () {
                 "tableSql": tableSql,
                 "author": author,
                 "mapperPath": mapperPath,
-                "poPath": poPath
+                "modelPath": modelPath
             },
             dataType: "json",
             success: function (data) {

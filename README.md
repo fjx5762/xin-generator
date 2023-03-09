@@ -11,7 +11,7 @@ classInfo.setCreateBy(author);
 // mapper路径
 classInfo.setMapperPath(mapperPath);
 // 实体路径
-classInfo.setEntityPath(poPath);
+classInfo.setEntityPath(modelPath);
 // mapper基类
 classInfo.setIsExtendsBaseMapper(false);
 // 继承service
