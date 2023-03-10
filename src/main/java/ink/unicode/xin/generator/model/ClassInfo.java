@@ -18,7 +18,10 @@ public class ClassInfo {
     private String serialVersionUID;
     private String createBy;
     private String entityPath;
+    private String paramPath;
     private String mapperPath;
+    private String servicePath;
+    private String serviceImplPath;
     private Boolean isMultiplePrimaryKey;
     private Boolean isExtendsBaseMapper;
     private Boolean needControllerExtends;

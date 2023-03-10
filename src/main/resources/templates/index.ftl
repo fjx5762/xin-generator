@@ -76,28 +76,25 @@ CREATE TABLE `user_info` (
                             <ul class="nav nav-tabs pull-right">
                                 <li class="pull-left header">生成代码</li>
 
-                                <li><a href="#model" data-toggle="tab">Model</a></li>
-                                <li><a href="#mybatis" data-toggle="tab">Mybatis</a></li>
-                                <li><a href="#dao" data-toggle="tab">Dao</a></li>
+                                <li><a href="#controller" data-toggle="tab">Controller</a></li>
                                 <li><a href="#service_impl" data-toggle="tab">ServiceImpl</a></li>
                                 <li><a href="#service" data-toggle="tab">Service</a></li>
-                                <li class="active" ><a href="#controller" data-toggle="tab">Controller</a></li>
+                                <li><a href="#mybatis" data-toggle="tab">Mybatis</a></li>
+                                <li><a href="#dao" data-toggle="tab">Dao</a></li>
+                                <li><a href="#model" data-toggle="tab">Model</a></li>
+                                <li class="active" ><a href="#param" data-toggle="tab">Param</a></li>
 
                             </ul>
                             <div class="tab-content no-padding">
-                                <div class="chart tab-pane active" id="controller">
-                                    <div class="box-body">
-                                        Controller：<textarea id="controller_ide" ></textarea>
+
+                                <div class="chart tab-pane active" id="param" >
+                                    <div class="box-body ">
+                                        Param：<textarea id="param_ide" ></textarea>
                                     </div>
                                 </div>
-                                <div class="chart tab-pane active" id="service">
-                                    <div class="box-body">
-                                        Service：<textarea id="service_ide" ></textarea>
-                                    </div>
-                                </div>
-                                <div class="chart tab-pane active" id="service_impl">
-                                    <div class="box-body">
-                                        ServiceImpl：<textarea id="service_impl_ide" ></textarea>
+                                <div class="chart tab-pane active" id="model" >
+                                    <div class="box-body ">
+                                        Model：<textarea id="model_ide" ></textarea>
                                     </div>
                                 </div>
                                 <div class="chart tab-pane active" id="dao">
@@ -110,9 +107,19 @@ CREATE TABLE `user_info` (
                                         Mybatis：<textarea id="mybatis_ide" ></textarea>
                                     </div>
                                 </div>
-                                <div class="chart tab-pane active" id="model" >
-                                    <div class="box-body ">
-                                        Model：<textarea id="model_ide" ></textarea>
+                                <div class="chart tab-pane active" id="service">
+                                    <div class="box-body">
+                                        Service：<textarea id="service_ide" ></textarea>
+                                    </div>
+                                </div>
+                                <div class="chart tab-pane active" id="service_impl">
+                                    <div class="box-body">
+                                        ServiceImpl：<textarea id="service_impl_ide" ></textarea>
+                                    </div>
+                                </div>
+                                <div class="chart tab-pane active" id="controller">
+                                    <div class="box-body">
+                                        Controller：<textarea id="controller_ide" ></textarea>
                                     </div>
                                 </div>
                             </div>

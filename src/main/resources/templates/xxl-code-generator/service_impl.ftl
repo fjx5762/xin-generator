@@ -1,48 +1,69 @@
+import com.wmeimob.common.constants.CommonConstant;
+import com.wmeimob.common.context.SysUserContextHolder;
+import com.wmeimob.common.exception.BusinessException;
+import com.wmeimob.common.util.AssertUtil;
+import com.wmeimob.tkmybatis.base.impl.BaseCrudService;
+import com.wmeimob.util.BeanCopierUtil;
+import com.wmeimob.util.PageHelper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import tk.mybatis.mapper.entity.Example;
 
-/**
- * @author ${classInfo.createBy}
- * @since ${.now?string('yyyy.MM.dd')}
-*/
+import java.util.*;
+
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ${classInfo.className}ServiceImpl implements ${classInfo.className}Service {
-
-    private final ${classInfo.className}Mapper ${classInfo.className?uncap_first}Mapper;
-<#if classInfo.needServiceExtends?exists && classInfo.needServiceExtends>
+public class ${classInfo.className}ServiceImpl extends BaseCrudService<Long, ${classInfo.className}, ${classInfo.className}Mapper> implements ${classInfo.className}Service {
 
     @Override
-    public CommonResult save(${classInfo.className} ${classInfo.className?uncap_first}) {
-        ${classInfo.className?uncap_first}Mapper.insert(${classInfo.className?uncap_first});
-        return CommonResult;
+    public List<${classInfo.className}> page(${classInfo.className}Param param) {
+        PageHelper.startPage(param.getPageNum(), param.getPageSize());
+        Example e = new Example(${classInfo.className}.class);
+        Example.Criteria c = e.createCriteria();
+        c.andEqualTo("status", 1);
+        e.orderBy("sort").desc();
+        return mapper.selectByExample(e);
     }
 
     @Override
-    public CommonResult remove(${classInfo.primaryKeyClass} <#if classInfo.isMultiplePrimaryKey?exists && classInfo.isMultiplePrimaryKey>${classInfo.primaryKeyClass?uncap_first}<#else>${classInfo.primaryKeyFieldList[0].columnName?uncap_first}</#if>) {
-        ${classInfo.className?uncap_first}Mapper.deleteByPrimaryKey(<#if classInfo.isMultiplePrimaryKey?exists && classInfo.isMultiplePrimaryKey>${classInfo.primaryKeyClass?uncap_first}<#else>${classInfo.primaryKeyFieldList[0].columnName?uncap_first}</#if>);
-        return CommonResult;
+    public ${classInfo.className} detail(Long id) {
+        ${classInfo.className} ${classInfo.className?uncap_first} = mapper.selectByPrimaryKey(id);
+        AssertUtil.notNull(${classInfo.className?uncap_first});
+        return ${classInfo.className?uncap_first};
     }
 
     @Override
-    public CommonResult update(${classInfo.className} ${classInfo.className?uncap_first}) {
-        ${classInfo.className?uncap_first}Mapper.updateByPrimaryKey(${classInfo.className?uncap_first});
-        return CommonResult;
+    public ${classInfo.className} add(${classInfo.className}Param param) {
+        ${classInfo.className} ${classInfo.className?uncap_first} = BeanCopierUtil.copy(param, ${classInfo.className}.class);
+        SysUserContextHolder.fillCreate(${classInfo.className?uncap_first});
+        AssertUtil.successLine(mapper.insertSelective(${classInfo.className?uncap_first}));
+        return ${classInfo.className?uncap_first};
     }
 
     @Override
-    public ${classInfo.className} getById(${classInfo.primaryKeyClass} <#if classInfo.isMultiplePrimaryKey?exists && classInfo.isMultiplePrimaryKey>${classInfo.primaryKeyClass?uncap_first}<#else>${classInfo.primaryKeyFieldList[0].columnName?uncap_first}</#if>) {
-        return ${classInfo.className?uncap_first}Mapper.selectByPrimaryKey(<#if classInfo.isMultiplePrimaryKey?exists && classInfo.isMultiplePrimaryKey>${classInfo.primaryKeyClass?uncap_first}<#else>${classInfo.primaryKeyFieldList[0].columnName?uncap_first}</#if>);
+    public ${classInfo.className} upd(${classInfo.className}Param param) {
+        ${classInfo.className} ${classInfo.className?uncap_first} = Optional.ofNullable(this.selectByPrimaryKey(param.getId())).orElseThrow(() -> BusinessException.getInstance("当前更新数据不存在"));
+        if (StringUtils.isNotBlank(param.getName())) {
+            ${classInfo.className?uncap_first}.setName(param.getName());
+        }
+        SysUserContextHolder.fillUpdate(${classInfo.className?uncap_first});
+        AssertUtil.successLine(mapper.updateByPrimaryKeySelective(${classInfo.className?uncap_first}));
+        return ${classInfo.className?uncap_first};
     }
-</#if>
+
+    @Override
+    public void del(Long id) {
+        ${classInfo.className} ${classInfo.className?uncap_first} = Optional.ofNullable(this.selectByPrimaryKey(id)).orElseThrow(() -> BusinessException.getInstance("当前删除数据不存在"));
+        SysUserContextHolder.fillUpdate(${classInfo.className?uncap_first});
+        ${classInfo.className?uncap_first}.setStatus(CommonConstant.STATUS_FALSE);
+        AssertUtil.successLine(mapper.updateByPrimaryKeySelective(${classInfo.className?uncap_first}));
+    }
+
 
 
 }

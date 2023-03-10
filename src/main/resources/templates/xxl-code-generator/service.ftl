@@ -1,17 +1,18 @@
-/**
- * @author ${classInfo.createBy}
- * @since ${.now?string('yyyy.MM.dd')}
-*/
-public interface ${classInfo.className}Service {
+import com.wmeimob.tkmybatis.base.CrudService;
 
-<#if classInfo.needServiceExtends?exists && classInfo.needServiceExtends>
-    CommonResult save(${classInfo.className} ${classInfo.className?uncap_first});
+import java.util.List;
 
-    CommonResult remove(${classInfo.primaryKeyClass} <#if classInfo.isMultiplePrimaryKey?exists && classInfo.isMultiplePrimaryKey>${classInfo.primaryKeyClass?uncap_first}<#else>${classInfo.primaryKeyFieldList[0].columnName?uncap_first}</#if>);
+public interface ${classInfo.className}Service extends CrudService<Long, ${classInfo.className}> {
 
-    CommonResult update(${classInfo.className} ${classInfo.className?uncap_first});
+    List<${classInfo.className}> page(${classInfo.className}Param param);
 
-    ${classInfo.className} getById(${classInfo.primaryKeyClass} <#if classInfo.isMultiplePrimaryKey?exists && classInfo.isMultiplePrimaryKey>${classInfo.primaryKeyClass?uncap_first}<#else>${classInfo.primaryKeyFieldList[0].columnName?uncap_first}</#if>);
-</#if>
+    ${classInfo.className} detail(Long id);
+
+    ${classInfo.className} add(${classInfo.className}Param param);
+
+    ${classInfo.className} upd(${classInfo.className}Param param);
+
+    void del(Long id);
+
 
 }

@@ -1,59 +1,61 @@
-import com.wmeimob.common.constants.CommonConstant;
-import com.wmeimob.common.context.SysUserContextHolder;
-import com.wmeimob.tkmybatis.base.impl.BaseCrudController;
 import com.wmeimob.util.JsonResult;
-import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
-
-@Api(tags = {"汽车管理" })
+@Api(tags = {"${classInfo.classComment}"})
 @Slf4j
 @RestController
 @RequestMapping("/api/${classInfo.className?uncap_first}")
+@RequiredArgsConstructor
 public class ${classInfo.className}Controller {
 
-    @Autowired
-    private ${classInfo.className}Service ${classInfo.className?uncap_first}Service;
-<#if classInfo.needControllerExtends?exists && classInfo.needControllerExtends>
+    private final ${classInfo.className}Service ${classInfo.className?uncap_first}Service;
 
-    /**
-    * 新增
-    */
-    @PostMapping("/insert")
-    public CommonResult insert(${classInfo.className} ${classInfo.className?uncap_first}){
-        return ${classInfo.className?uncap_first}Service.save(${classInfo.className?uncap_first});
+
+    @ApiOperation("分页查询")
+    @GetMapping("/page")
+    public JsonResult<List<${classInfo.className}>> page(${classInfo.className}Param param) {
+        return JsonResult.ok(${classInfo.className?uncap_first}Service.page(param));
     }
 
-    /**
-    * 删除
-    */
-    @DeleteMapping("/delete")
-    public CommonResult delete(${classInfo.primaryKeyClass} <#if classInfo.isMultiplePrimaryKey?exists && classInfo.isMultiplePrimaryKey>${classInfo.primaryKeyClass?uncap_first}<#else>${classInfo.primaryKeyFieldList[0].columnName?uncap_first}</#if>){
-        return ${classInfo.className?uncap_first}Service.remove(<#if classInfo.isMultiplePrimaryKey?exists && classInfo.isMultiplePrimaryKey>${classInfo.primaryKeyClass?uncap_first}<#else>${classInfo.primaryKeyFieldList[0].columnName?uncap_first}</#if>);
+    @ApiOperation("详情")
+    @ApiImplicitParams(
+    @ApiImplicitParam(name = "id", value = "主键id")
+    )
+    @GetMapping()
+    public JsonResult<${classInfo.className}> detail(@RequestParam(value = "id") Long id) {
+        return JsonResult.ok(${classInfo.className?uncap_first}Service.detail(id));
     }
 
-    /**
-    * 更新
-    */
-    @PutMapping("/update")
-    public CommonResult update(${classInfo.className} ${classInfo.className?uncap_first}){
-        return ${classInfo.className?uncap_first}Service.update(${classInfo.className?uncap_first});
+    @ApiOperation("新增")
+    @PostMapping()
+    public JsonResult<${classInfo.className}> add(@RequestBody @Valid ${classInfo.className}Param param) {
+        return JsonResult.ok(${classInfo.className?uncap_first}Service.add(param));
     }
 
-    /**
-    * 查询
-    */
-    @GetMapping("/load")
-    public CommonResult load(${classInfo.primaryKeyClass} <#if classInfo.isMultiplePrimaryKey?exists && classInfo.isMultiplePrimaryKey>${classInfo.primaryKeyClass?uncap_first}<#else>${classInfo.primaryKeyFieldList[0].columnName?uncap_first}</#if>){
-        return ${classInfo.className?uncap_first}Service.getById(<#if classInfo.isMultiplePrimaryKey?exists && classInfo.isMultiplePrimaryKey>${classInfo.primaryKeyClass?uncap_first}<#else>${classInfo.primaryKeyFieldList[0].columnName?uncap_first}</#if>);
+    @ApiOperation("更新")
+    @PutMapping()
+    public JsonResult<${classInfo.className}> upd(@RequestBody @Valid ${classInfo.className}Param param) {
+        return JsonResult.ok(${classInfo.className?uncap_first}Service.upd(param));
     }
-</#if>
+
+    @ApiOperation("删除")
+    @ApiImplicitParams(
+    @ApiImplicitParam(name = "id", value = "主键id")
+    )
+    @DeleteMapping()
+    public JsonResult<Void> del(@RequestParam(value = "id") Long id) {
+        ${classInfo.className?uncap_first}Service.del(id);
+        return JsonResult.ok();
+    }
+
 
 }

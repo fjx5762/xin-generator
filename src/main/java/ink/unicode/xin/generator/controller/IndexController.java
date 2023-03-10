@@ -54,8 +54,11 @@ public class IndexController {
             // 解析表结构
             ClassInfo classInfo = CodeGeneratorTool.processTableIntoClassInfo(tableSqlFormat);
             classInfo.setCreateBy(author);
-            classInfo.setMapperPath(mapperPath);
-            classInfo.setEntityPath(modelPath);
+            classInfo.setMapperPath("com.wmeimob.jingtaizhiye.mapper.v2");
+            classInfo.setEntityPath("com.wmeimob.jingtaizhiye.entity.v2");
+            classInfo.setParamPath("com.wmeimob.common.dto.param.v2");
+            classInfo.setServicePath("com.wmeimob.service.v2");
+            classInfo.setServiceImplPath("com.wmeimob.service.v2.impl");
             classInfo.setPrimaryKeyClass(classInfo.getIsMultiplePrimaryKey() ?
                     classInfo.getClassName() + "Key" : classInfo.getPrimaryKeyFieldList().get(0).getFieldClass());
             // mapper基类
@@ -77,6 +80,7 @@ public class IndexController {
                     .put("dao_code", freemarkerService.processString("xxl-code-generator/dao.ftl", params))
                     .put("mybatis_code", freemarkerService.processString("xxl-code-generator/mybatis.ftl", params))
                     .put("model_code", freemarkerService.processString("xxl-code-generator/model.ftl", params))
+                    .put("param_code", freemarkerService.processString("xxl-code-generator/param.ftl", params))
                     .put("format_sql", tableSqlFormat).build();
 
             // 计算,生成代码行数
