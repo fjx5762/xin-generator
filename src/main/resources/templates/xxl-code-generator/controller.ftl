@@ -1,17 +1,22 @@
+import com.wmeimob.common.constants.CommonConstant;
+import com.wmeimob.common.context.SysUserContextHolder;
+import com.wmeimob.tkmybatis.base.impl.BaseCrudController;
+import com.wmeimob.util.JsonResult;
+import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import lombok.extern.slf4j.Slf4j;
 import java.util.List;
-import java.util.Map;
 
 
-/**
-* @author ${classInfo.createBy}
-* @since ${.now?string('yyyy/MM/dd')}
-*/
+@Api(tags = {"汽车管理" })
 @Slf4j
-@RestController("/${classInfo.className?uncap_first}")
+@RestController
+@RequestMapping("/api/${classInfo.className?uncap_first}")
 public class ${classInfo.className}Controller {
 
     @Autowired
