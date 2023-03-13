@@ -11,11 +11,11 @@
         </#if>
         </#list>
         </#if>
-        <result property="status" column="status"/>
-        <result property="gmtCreated" column="gmt_created"/>
-        <result property="gmtModified" column="gmt_modified"/>
-        <result property="createUser" column="create_user"/>
-        <result property="modifyUser" column="modify_user"/>
+        <result property="status" jdbcType="TINYINT" column="status"/>
+        <result property="gmtCreated" jdbcType="TIMESTAMP" column="gmt_created"/>
+        <result property="gmtModified" jdbcType="TIMESTAMP" column="gmt_modified"/>
+        <result property="createUser" jdbcType="VARCHAR" column="create_user"/>
+        <result property="modifyUser" jdbcType="VARCHAR" column="modify_user"/>
     </resultMap>
 
 </mapper>
