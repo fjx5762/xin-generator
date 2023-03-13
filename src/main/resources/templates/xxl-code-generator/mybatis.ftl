@@ -11,6 +11,11 @@
         </#if>
         </#list>
         </#if>
+        <result property="status" column="status"/>
+        <result property="gmtCreated" column="gmt_created"/>
+        <result property="gmtModified" column="gmt_modified"/>
+        <result property="createUser" column="create_user"/>
+        <result property="modifyUser" column="modify_user"/>
     </resultMap>
 
 </mapper>
