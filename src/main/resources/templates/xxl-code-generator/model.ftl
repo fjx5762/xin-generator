@@ -52,6 +52,7 @@ public class ${classInfo.className} extends BaseEntity<Long> implements Serializ
     @Column(name = "${fieldItem.columnName}")
     @ApiModelProperty("${fieldItem.fieldComment}")
     private ${fieldItem.fieldClass} ${fieldItem.fieldName};
+
     </#if>
     </#list>
 </#if>

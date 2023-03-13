@@ -21,7 +21,7 @@ import java.util.*;
 public class ${classInfo.className}ServiceImpl extends BaseCrudService<Long, ${classInfo.className}, ${classInfo.className}Mapper> implements ${classInfo.className}Service {
 
     @Override
-    public List<${classInfo.className}> page(${classInfo.className}Param param) {
+    public List<${classInfo.className}> page(${classInfo.className}QueryParam param) {
         PageHelper.startPage(param.getPageNum(), param.getPageSize());
         Example e = new Example(${classInfo.className}.class);
         Example.Criteria c = e.createCriteria();
@@ -38,7 +38,7 @@ public class ${classInfo.className}ServiceImpl extends BaseCrudService<Long, ${c
     }
 
     @Override
-    public ${classInfo.className} add(${classInfo.className}Param param) {
+    public ${classInfo.className} add(${classInfo.className}AddParam param) {
         ${classInfo.className} ${classInfo.className?uncap_first} = BeanCopierUtil.copy(param, ${classInfo.className}.class);
         SysUserContextHolder.fillCreate(${classInfo.className?uncap_first});
         AssertUtil.successLine(mapper.insertSelective(${classInfo.className?uncap_first}));
@@ -46,11 +46,16 @@ public class ${classInfo.className}ServiceImpl extends BaseCrudService<Long, ${c
     }
 
     @Override
-    public ${classInfo.className} upd(${classInfo.className}Param param) {
+    public ${classInfo.className} upd(${classInfo.className}UpdParam param) {
         ${classInfo.className} ${classInfo.className?uncap_first} = Optional.ofNullable(this.selectByPrimaryKey(param.getId())).orElseThrow(() -> BusinessException.getInstance("当前更新数据不存在"));
-        if (StringUtils.isNotBlank(param.getName())) {
-            ${classInfo.className?uncap_first}.setName(param.getName());
-        }
+<#if classInfo.fieldList?exists && classInfo.fieldList?size gt 0>
+    <#list classInfo.fieldList as fieldItem >
+        <#if fieldItem.fieldName != 'id'>
+        ${classInfo.className?uncap_first}.set${fieldItem.fieldName?cap_first}(param.get${fieldItem.fieldName?cap_first}());
+        </#if>
+    </#list>
+</#if>
+
         SysUserContextHolder.fillUpdate(${classInfo.className?uncap_first});
         AssertUtil.successLine(mapper.updateByPrimaryKeySelective(${classInfo.className?uncap_first}));
         return ${classInfo.className?uncap_first};

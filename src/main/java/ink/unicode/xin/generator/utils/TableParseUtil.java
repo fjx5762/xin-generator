@@ -85,6 +85,7 @@ public class TableParseUtil {
         if (fieldListMatcher.find()) {
             List<String> fieldInfoSqlList = Splitter.on(",\n").omitEmptyStrings().splitToList(fieldListMatcher.group(1));
             for (String fieldInfoSql : fieldInfoSqlList) {
+
                 FieldInfo fieldInfo = new FieldInfo();
                 // 字段
 //                Matcher fieldMatcher = Pattern.compile("\\`(.*)\\`\\s*()").matcher(fieldInfoSql);
@@ -202,7 +203,8 @@ public class TableParseUtil {
                 } else {
                     fieldInfo.setFieldComment("");
                 }
-                if (Objects.nonNull(fieldInfo.getColumnName())) {
+                if (Objects.nonNull(fieldInfo.getColumnName()) &&
+                        !Arrays.asList("gmt_created", "gmt_modified", "create_user", "modify_user", "status").contains(fieldInfo.getColumnName())) { // 特殊字段
                     fieldList.add(fieldInfo);
                 }
             }

@@ -1,10 +1,12 @@
 import com.wmeimob.util.JsonResult;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,8 +24,8 @@ public class ${classInfo.className}Controller {
 
     @ApiOperation("分页查询")
     @GetMapping("/page")
-    public JsonResult<List<${classInfo.className}>> page(${classInfo.className}Param param) {
-        return JsonResult.ok(${classInfo.className?uncap_first}Service.page(param));
+    public JsonResult<?> page(${classInfo.className}QueryParam param) {
+        return JsonResult.ok(new PageInfo<>(${classInfo.className?uncap_first}Service.page(param)));
     }
 
     @ApiOperation("详情")
@@ -37,13 +39,13 @@ public class ${classInfo.className}Controller {
 
     @ApiOperation("新增")
     @PostMapping()
-    public JsonResult<${classInfo.className}> add(@RequestBody @Valid ${classInfo.className}Param param) {
+    public JsonResult<${classInfo.className}> add(@RequestBody @Valid ${classInfo.className}AddParam param) {
         return JsonResult.ok(${classInfo.className?uncap_first}Service.add(param));
     }
 
     @ApiOperation("更新")
     @PutMapping()
-    public JsonResult<${classInfo.className}> upd(@RequestBody @Valid ${classInfo.className}Param param) {
+    public JsonResult<${classInfo.className}> upd(@RequestBody @Valid ${classInfo.className}UpdParam param) {
         return JsonResult.ok(${classInfo.className?uncap_first}Service.upd(param));
     }
 
