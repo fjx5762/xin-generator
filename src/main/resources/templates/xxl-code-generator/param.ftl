@@ -138,6 +138,7 @@ public class ${classInfo.className}UpdParam implements Serializable {
     <#if fieldItem.fieldName != 'id'>
     @ApiModelProperty("${fieldItem.fieldComment}")
     private ${fieldItem.fieldClass} ${fieldItem.fieldName};
+
     </#if>
     </#list>
 </#if>
